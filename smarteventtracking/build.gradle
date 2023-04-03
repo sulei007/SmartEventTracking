@@ -24,8 +24,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    afterEvaluate {
+        publishing {
+            def versionName = "1.0.2" // 当前版本依赖库版本号，这个jitpack不会使用到，只是我们开发者自己查看
+            publications {
+                // Creates a Maven publication called "release".
+                release(MavenPublication) {
+                    groupId = 'com.sulei.smarteventtracking' // 这个是依赖库的组 id
+                    artifactId = 'SmartEventTracking' // 依赖库的名称（jitpack 都不会使用到）
+                    version = versionName
+                }
+            }
+        }
     }
 }
 
