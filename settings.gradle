@@ -1,0 +1,3 @@
+rootProject.name = "SmartEventTracking"
+include ':app'
+include ':smarteventtracking'
