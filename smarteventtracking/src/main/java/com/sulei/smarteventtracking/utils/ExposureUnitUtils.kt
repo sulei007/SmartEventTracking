@@ -3,7 +3,7 @@ package com.sulei.smarteventtracking.utils
 import android.view.View
 import android.view.ViewGroup
 import com.sulei.smarteventtracking.R
-import com.sulei.smarteventtracking.data.ExposureTrackBean
+import com.sulei.smarteventtracking.data.EventTrackBean
 
 /**
  * 曝光单元工具类
@@ -28,7 +28,7 @@ object ExposureUnitUtils {
      * 通过给 unit 设置 tag，实现数据绑定
      * */
     fun injectExposureUnit(
-        unit: View, bean: ExposureTrackBean, parentView: ViewGroup? = null
+        unit: View, bean: EventTrackBean, parentView: ViewGroup? = null
     ) {
         unit.setTag(Unit_Exposure_Tag_Id, bean)
         parentView?.let {
@@ -65,12 +65,12 @@ object ExposureUnitUtils {
     }
 
     /**
-     * 获取曝光最小单元绑定的曝光数据
+     * 获取曝光最小单元绑定的埋点数据
      * */
-    fun getUnitExposureBean(view: View): ExposureTrackBean? {
+    fun getUnitExposureBean(view: View): EventTrackBean? {
         if (isExposureUnit(view)) {
             val tag = view.getTag(Unit_Exposure_Tag_Id)
-            if (tag is ExposureTrackBean) {
+            if (tag is EventTrackBean) {
                 return tag
             }
         }

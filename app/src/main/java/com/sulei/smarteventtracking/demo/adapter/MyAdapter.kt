@@ -3,7 +3,7 @@ package com.sulei.smarteventtracking.demo.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sulei.smarteventtracking.data.ExposureTrackBean
+import com.sulei.smarteventtracking.data.EventTrackBean
 import com.sulei.smarteventtracking.demo.bean.CustomBean
 import com.sulei.smarteventtracking.demo.bean.Info
 import com.sulei.smarteventtracking.demo.databinding.RecycleViewItemBinding
@@ -46,7 +46,7 @@ class MyAdapter(val name: String, val mList: ArrayList<Info>) :
 
             ExposureTrackHelper.injectExposureUnit(
                 binding.layout1,
-                ExposureTrackBean(left?.id.toString(), CustomBean(left?.name ?: "")),
+                EventTrackBean(left?.id.toString(), CustomBean(left?.name ?: "")),
                 binding.llContent
             )
 
@@ -54,7 +54,7 @@ class MyAdapter(val name: String, val mList: ArrayList<Info>) :
             binding.tv2.text = right?.name
             ExposureTrackHelper.injectExposureUnit(
                 binding.layout2,
-                ExposureTrackBean(right?.id.toString(), CustomBean(right?.name ?: "")),
+                EventTrackBean(right?.id.toString(), CustomBean(right?.name ?: "")),
                 binding.llContent
             )
             binding.executePendingBindings()

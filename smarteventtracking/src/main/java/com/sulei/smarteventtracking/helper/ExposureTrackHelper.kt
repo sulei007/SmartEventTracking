@@ -3,12 +3,12 @@ package com.sulei.smarteventtracking.helper
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import com.sulei.smarteventtracking.action.IExecuteExposureAction
+import com.sulei.smarteventtracking.action.IExecuteReportAction
 import com.sulei.smarteventtracking.area.HorizontalCorrectArea
 import com.sulei.smarteventtracking.area.ICorrectArea
 import com.sulei.smarteventtracking.area.VerticalCorrectArea
 import com.sulei.smarteventtracking.area.ViewPagerCorrectArea
-import com.sulei.smarteventtracking.data.ExposureTrackBean
+import com.sulei.smarteventtracking.data.EventTrackBean
 import com.sulei.smarteventtracking.lifecycle.TrackLifecycleObserver
 import com.sulei.smarteventtracking.utils.ExposureTrackCollectionUtils
 import com.sulei.smarteventtracking.utils.ExposureUnitUtils
@@ -39,38 +39,26 @@ object ExposureTrackHelper {
     }
 
     /**
-     * 第一步，执行曝光的页面，需要先注册下，否则不会执行曝光操作
-     * @param pageName 页面唯一标示，可以使用 java.class.name
-     * */
-    fun registerLifecycleObserver(
-        pageName: String, lifecycleOwner: LifecycleOwner, action: IExecuteExposureAction?
-    ) {
-        lifecycleOwner.lifecycle.addObserver(TrackLifecycleObserver(pageName, action))
-    }
-
-    /**
-     * 第二步，曝光注入
+     * 第一步，曝光注入
      * @param unit 曝光的最小单元
-     * @param bean 曝光bean
+     * @param bean 埋点数据bean
      * @param parentView 曝光的最小单元的父view，用于优化遍历速度，可以不传
      * */
     fun injectExposureUnit(
-        unit: View, bean: ExposureTrackBean, parentView: ViewGroup? = null
+        unit: View, bean: EventTrackBean, parentView: ViewGroup? = null
     ) {
         ExposureUnitUtils.injectExposureUnit(unit, bean, parentView)
         ExposureUnitUtils.resetParentExposure(unit)
     }
 
     /**
-     * 第三步，执行ViewGroup的曝光
-     * @param pageName 页面唯一标示，可以使用 java.class.name
-     *
-     * 注意：该 pageName 和 registerLifecycleObserver 方法的 pageName 必须要保持一致
+     * 第二步，执行ViewGroup的曝光
+     * @param pageName 必须和 EventTrackRegisterHelper registerLifecycleObserver 方法的 pageName 保持一致
      * */
     fun executeExposureTrackForViewGroup(
-        pageName: String, viewGroup: ViewGroup, location: IntArray
+        pageName: String, view: View, location: IntArray
     ) {
-        executeExposureTrack(pageName, viewGroup, location, true)
+        executeExposureTrack(pageName, view, location, true)
     }
 
     /**
@@ -90,7 +78,7 @@ object ExposureTrackHelper {
 
     /**
      * 执行遍历
-     * 筛选在展示区间内所有满足条件的曝光单元，然后将曝光bean加入到页面纬度的曝光列表里
+     * 筛选在展示区间内所有满足条件的曝光单元，然后将埋点数据bean加入到页面纬度的曝光列表里
      * @param pageName 页面唯一标示，可以使用 java.class.name
      * */
     private fun executeExposureTrack(

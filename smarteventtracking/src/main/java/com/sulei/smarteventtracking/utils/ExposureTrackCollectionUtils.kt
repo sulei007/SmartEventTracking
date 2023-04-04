@@ -1,27 +1,27 @@
 package com.sulei.smarteventtracking.utils
 
-import com.sulei.smarteventtracking.data.ExposureTrackBean
+import com.sulei.smarteventtracking.data.EventTrackBean
 
 /**
- * 曝光bean的集合的工具类
+ * 曝光事件，埋点数据bean的集合的工具类
  * */
 object ExposureTrackCollectionUtils {
     /**
      * 根据页面纬度，维护需要曝光的数据列表
      * key 是页面page，value是待上报的数据
      * */
-    private val waitReportMap = HashMap<String, ArrayList<ExposureTrackBean>>()
+    private val waitReportMap = HashMap<String, ArrayList<EventTrackBean>>()
 
     /**
      * 根据页面纬度，维护已经曝光数据列表
      * key 是页面page，value是已经上报的数据
      * */
-    private val reportedMap = HashMap<String, ArrayList<ExposureTrackBean>>()
+    private val reportedMap = HashMap<String, ArrayList<EventTrackBean>>()
 
     /**
-     * 添加曝光bean
+     * 添加埋点数据bean
      * */
-    fun addExposureTrackBean(pageName: String, bean: ExposureTrackBean) {
+    fun addExposureTrackBean(pageName: String, bean: EventTrackBean) {
         if (isBeanReported(pageName, bean)) {//已经上报过，不能重复添加
             return
         }
@@ -37,14 +37,14 @@ object ExposureTrackCollectionUtils {
     }
 
     /**
-     * 返回当前页面的需要曝光数据
+     * 返回当前页面需要上报的数据
      * */
-    fun getExposureTrackListByPage(pageName: String): ArrayList<ExposureTrackBean>? {
+    fun getExposureTrackListByPage(pageName: String): ArrayList<EventTrackBean>? {
         return waitReportMap[pageName]
     }
 
     /**
-     * 移除当前页面的曝光数据
+     * 移除当前页面上报的数据
      * */
     fun removeExposureTrackListByPage(pageName: String) {
         waitReportMap.remove(pageName)
@@ -68,7 +68,7 @@ object ExposureTrackCollectionUtils {
     /**
      * 当前bean是否已经上报过了
      * */
-    private fun isBeanReported(pageName: String, bean: ExposureTrackBean): Boolean {
+    private fun isBeanReported(pageName: String, bean: EventTrackBean): Boolean {
         val reported = reportedMap[pageName]
         if (!reported.isNullOrEmpty() && reported.contains(bean)) {
             return true

@@ -66,7 +66,7 @@ class MyFragment(val cId: Int, val name: String) : Fragment() {
     private fun executeExposureTrack() {
         val location =
             intArrayOf(0, 0, getScreenWidth(requireContext()), getScreenHeight(requireContext()))
-        ExposureTrackHelper.executeExposureTrackForViewGroup(pageName, view as ViewGroup, location)
+        view?.let { ExposureTrackHelper.executeExposureTrackForViewGroup(pageName, it, location) }
     }
 
 
