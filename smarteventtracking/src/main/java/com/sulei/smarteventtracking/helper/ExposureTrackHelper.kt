@@ -53,11 +53,10 @@ object ExposureTrackHelper {
 
     /**
      * 第二步，执行ViewGroup的曝光
-     * @param pageName 必须和 EventTrackRegisterHelper registerLifecycleObserver 方法的 pageName 保持一致
      * */
-    fun executeExposureTrackForViewGroup(
-        pageName: String, view: View, location: IntArray
+    fun executeExposureTrackForViewGroup(view: View, location: IntArray
     ) {
+        val pageName = EventTrackRegisterHelper.getTopPageName()
         executeExposureTrack(pageName, view, location, true)
     }
 

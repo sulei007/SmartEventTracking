@@ -13,10 +13,10 @@ object ClickTrackHelper {
     /**
      * 调用点击方法
      * @param view 已经注入了埋点数据bean的最小曝光单元
-     * @param pageName 必须和 EventTrackRegisterHelper registerLifecycleObserver 方法的 pageName 保持一致
      * */
-    fun executeClickTrack(pageName: String, view: View) {
+    fun executeClickTrack(view: View) {
         ExposureUnitUtils.getUnitExposureBean(view)?.let {
+            val pageName = EventTrackRegisterHelper.getTopPageName()
             ClickTrackCollectionUtils.addClickTrackBean(pageName, it)
         }
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.sulei.smarteventtracking.utils.ExposureTrackCollectionUtils
 import com.sulei.smarteventtracking.action.IExecuteReportAction
+import com.sulei.smarteventtracking.helper.EventTrackRegisterHelper
 import com.sulei.smarteventtracking.utils.ClickTrackCollectionUtils
 
 /**
@@ -22,6 +23,7 @@ class TrackLifecycleObserver(
             } else if (event == Lifecycle.Event.ON_DESTROY) {
                 action = null
                 removeAction()
+                EventTrackRegisterHelper.removeTopPageName()
                 source.lifecycle.removeObserver(this)
             }
         } catch (e: Exception) {
