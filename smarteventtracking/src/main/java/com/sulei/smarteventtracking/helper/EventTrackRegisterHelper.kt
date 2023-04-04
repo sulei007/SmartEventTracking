@@ -20,8 +20,8 @@ object EventTrackRegisterHelper {
     ) {
         if (getTopPageName() != pageName) {
             pushPageName(pageName)
+            lifecycleOwner.lifecycle.addObserver(TrackLifecycleObserver(pageName, action))
         }
-        lifecycleOwner.lifecycle.addObserver(TrackLifecycleObserver(pageName, action))
     }
 
     /**
