@@ -54,12 +54,8 @@ object ExposureTrackHelper {
     /**
      * 第二步，执行ViewGroup的曝光
      * */
-    fun executeExposureTrackForViewGroup(view: View, location: IntArray
-    ) {
-        val pageName = EventTrackRegisterHelper.getResumePageName()
-        pageName?.let {
-            executeExposureTrack(it, view, location, true)
-        }
+    fun executeExposureTrackForViewGroup(view: View, location: IntArray) {
+        executeExposureTrack(view, location, true)
     }
 
     /**
@@ -83,7 +79,7 @@ object ExposureTrackHelper {
      * @param pageName 页面唯一标示，可以使用 java.class.name
      * */
     private fun executeExposureTrack(
-        pageName: String, view: View, location: IntArray, needSetParentHasExposure: Boolean
+        view: View, location: IntArray, needSetParentHasExposure: Boolean
     ) {
         try {
             //不可见，不执行遍历
@@ -111,7 +107,7 @@ object ExposureTrackHelper {
             //是最小埋点单元，所以找到它后，则不执行遍历
             if (ExposureUnitUtils.isExposureUnit(view)) {
                 ExposureUnitUtils.getUnitExposureBean(view)?.let {
-                    ExposureTrackCollectionUtils.addExposureTrackBean(pageName, it)
+                    ExposureTrackCollectionUtils.addExposureTrackBean(it.pageName, it)
                     if (needSetParentHasExposure) {
                         ExposureUnitUtils.setParentHasExposure(view)
                     }
@@ -123,9 +119,7 @@ object ExposureTrackHelper {
                 for (index: Int in 0 until view.childCount) {
                     //遍历ViewGroup的子view
                     val child = view.getChildAt(index)
-                    executeExposureTrack(
-                        pageName, child, location, index == view.childCount - 1
-                    )
+                    executeExposureTrack(child, location, index == view.childCount - 1)
                 }
             }
         } catch (e: Exception) {

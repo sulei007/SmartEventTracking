@@ -14,16 +14,20 @@ object ClickTrackCollectionUtils {
 
 
     /**
+     * 调用 EventTrackRegisterHelper 注册时，初始化 map
+     * */
+    fun initWaitReportMap(pageName: String) {
+        if (waitReportMap[pageName] == null) {
+            waitReportMap[pageName] = ArrayList()
+        }
+    }
+
+    /**
      * 添加埋点数据bean
      * */
     fun addClickTrackBean(pageName: String, bean: EventTrackBean) {
-        var datas = waitReportMap[pageName]
-        if (datas == null) {
-            datas = ArrayList()
-            waitReportMap[pageName] = datas
-        }
-        //点击事件可以重复添加
-        datas.add(bean)
+        val datas = waitReportMap[pageName]
+        datas?.add(bean)
     }
 
     /**

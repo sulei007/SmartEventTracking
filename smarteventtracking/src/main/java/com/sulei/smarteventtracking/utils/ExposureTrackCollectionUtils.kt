@@ -19,6 +19,15 @@ object ExposureTrackCollectionUtils {
     private val reportedMap = HashMap<String, ArrayList<EventTrackBean>>()
 
     /**
+     * 调用 EventTrackRegisterHelper 注册时，初始化 map
+     * */
+    fun initWaitReportMap(pageName: String) {
+        if (waitReportMap[pageName] == null) {
+            waitReportMap[pageName] = ArrayList()
+        }
+    }
+
+    /**
      * 添加埋点数据bean
      * */
     fun addExposureTrackBean(pageName: String, bean: EventTrackBean) {
@@ -26,12 +35,8 @@ object ExposureTrackCollectionUtils {
             return
         }
 
-        var datas = waitReportMap[pageName]
-        if (datas == null) {
-            datas = ArrayList()
-            waitReportMap[pageName] = datas
-        }
-        if (!datas.contains(bean)) {
+        val datas = waitReportMap[pageName]
+        if (datas != null && !datas.contains(bean)) {
             datas.add(bean)
         }
     }

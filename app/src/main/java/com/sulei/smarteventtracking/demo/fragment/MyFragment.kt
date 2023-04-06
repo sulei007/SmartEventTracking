@@ -35,7 +35,7 @@ class MyFragment(val cId: Int, val name: String) : Fragment() {
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
 
-        adapterOne = MyAdapter("我是第一个", ArrayList<Info>())
+        adapterOne = MyAdapter(name, ArrayList<Info>())
         recyclerView.adapter = adapterOne
 
         handle.postDelayed({

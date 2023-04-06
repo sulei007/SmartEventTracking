@@ -46,7 +46,7 @@ class MyAdapter(val name: String, val mList: ArrayList<Info>) :
 
             ExposureTrackHelper.injectExposureUnit(
                 binding.layout1,
-                EventTrackBean(left?.id.toString(), CustomBean(left?.name ?: "")),
+                EventTrackBean(left?.id.toString(), name, CustomBean(left?.name ?: "")),
                 binding.llContent
             )
 
@@ -54,7 +54,7 @@ class MyAdapter(val name: String, val mList: ArrayList<Info>) :
             binding.tv2.text = right?.name
             ExposureTrackHelper.injectExposureUnit(
                 binding.layout2,
-                EventTrackBean(right?.id.toString(), CustomBean(right?.name ?: "")),
+                EventTrackBean(right?.id.toString(), name, CustomBean(right?.name ?: "")),
                 binding.llContent
             )
             binding.executePendingBindings()

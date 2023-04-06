@@ -17,10 +17,7 @@ object ClickTrackHelper {
     fun executeClickTrack(view: View) {
         try {
             ExposureUnitUtils.getUnitExposureBean(view)?.let { bean ->
-                val pageName = EventTrackRegisterHelper.getResumePageName()
-                pageName?.let {
-                    ClickTrackCollectionUtils.addClickTrackBean(it, bean)
-                }
+                ClickTrackCollectionUtils.addClickTrackBean(bean.pageName, bean)
             }
         } catch (e: Exception) {
             e.printStackTrace()
