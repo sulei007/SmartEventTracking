@@ -2,14 +2,11 @@ package com.sulei.smarteventtracking.helper
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import com.sulei.smarteventtracking.action.IExecuteReportAction
 import com.sulei.smarteventtracking.area.HorizontalCorrectArea
 import com.sulei.smarteventtracking.area.ICorrectArea
 import com.sulei.smarteventtracking.area.VerticalCorrectArea
 import com.sulei.smarteventtracking.area.ViewPagerCorrectArea
 import com.sulei.smarteventtracking.data.EventTrackBean
-import com.sulei.smarteventtracking.lifecycle.TrackLifecycleObserver
 import com.sulei.smarteventtracking.utils.ExposureTrackCollectionUtils
 import com.sulei.smarteventtracking.utils.ExposureUnitUtils
 

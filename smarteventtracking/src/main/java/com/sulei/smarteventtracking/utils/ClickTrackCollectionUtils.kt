@@ -38,9 +38,19 @@ object ClickTrackCollectionUtils {
     }
 
     /**
+     * 清空当前页面的上报数据
+     * */
+    fun clearClickTrackListByPage(pageName: String) {
+        val list = waitReportMap[pageName]
+        if (!list.isNullOrEmpty()) {
+            waitReportMap[pageName] = ArrayList()
+        }
+    }
+
+    /**
      * 移除当前页面的上报数据
      * */
     fun removeClickTrackListByPage(pageName: String) {
-        waitReportMap[pageName]?.clear()
+        waitReportMap.remove(pageName)
     }
 }

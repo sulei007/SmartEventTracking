@@ -19,6 +19,11 @@ class TrackLifecycleObserver(
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         try {
             when (event) {
+                Lifecycle.Event.ON_CREATE -> {
+                    //根据 pageName，初始化上报的 map
+                    ExposureTrackCollectionUtils.initWaitReportMap(pageName)
+                    ClickTrackCollectionUtils.initWaitReportMap(pageName)
+                }
                 Lifecycle.Event.ON_PAUSE -> {
                     executeAction()
                 }
@@ -47,7 +52,7 @@ class TrackLifecycleObserver(
         //点击上报
         ClickTrackCollectionUtils.getClickTrackListByPage(pageName)?.let {
             action?.executeClickReport(it)
-            ClickTrackCollectionUtils.removeClickTrackListByPage(pageName)
+            ClickTrackCollectionUtils.clearClickTrackListByPage(pageName)
         }
     }
 
