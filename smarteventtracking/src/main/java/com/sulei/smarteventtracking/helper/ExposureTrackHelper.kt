@@ -56,8 +56,10 @@ object ExposureTrackHelper {
      * */
     fun executeExposureTrackForViewGroup(view: View, location: IntArray
     ) {
-        val pageName = EventTrackRegisterHelper.getTopPageName()
-        executeExposureTrack(pageName, view, location, true)
+        val pageName = EventTrackRegisterHelper.getResumePageName()
+        pageName?.let {
+            executeExposureTrack(it, view, location, true)
+        }
     }
 
     /**

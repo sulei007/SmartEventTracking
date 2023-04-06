@@ -18,13 +18,19 @@ class TrackLifecycleObserver(
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         try {
-            if (event == Lifecycle.Event.ON_PAUSE) {
-                executeAction()
-            } else if (event == Lifecycle.Event.ON_DESTROY) {
-                removeAction()
-                EventTrackRegisterHelper.removeTopPageName()
-                source.lifecycle.removeObserver(this)
-                action = null
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> {
+                    EventTrackRegisterHelper.setResumePageName(pageName)
+                }
+                Lifecycle.Event.ON_PAUSE -> {
+                    executeAction()
+                }
+                Lifecycle.Event.ON_DESTROY -> {
+                    removeAction()
+                    EventTrackRegisterHelper.setResumePageName(null)
+                    source.lifecycle.removeObserver(this)
+                    action = null
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
