@@ -41,7 +41,6 @@ object ClickTrackCollectionUtils {
      * 移除当前页面的上报数据
      * */
     fun removeClickTrackListByPage(pageName: String) {
-        waitReportMap.remove(pageName)
+        waitReportMap[pageName]?.clear()
     }
-
 }

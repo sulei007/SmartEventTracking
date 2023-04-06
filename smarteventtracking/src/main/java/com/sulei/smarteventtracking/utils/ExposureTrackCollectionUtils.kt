@@ -60,13 +60,15 @@ object ExposureTrackCollectionUtils {
      * 执行完上报，需要将 waitReportMap的内容， 移动到 reportedMap
      * */
     fun moveExposureTrackListFromWaitToReported(pageName: String) {
-        waitReportMap.remove(pageName)?.let {
+        val list = waitReportMap[pageName]
+        if (!list.isNullOrEmpty()) {
             var datas = reportedMap[pageName]
             if (datas == null) {
                 datas = ArrayList()
                 reportedMap[pageName] = datas
             }
-            datas.addAll(it)
+            datas.addAll(list)
+            waitReportMap[pageName] = ArrayList()
         }
     }
 
