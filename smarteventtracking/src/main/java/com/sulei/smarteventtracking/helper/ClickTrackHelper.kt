@@ -15,9 +15,13 @@ object ClickTrackHelper {
      * @param view 已经注入了埋点数据bean的最小曝光单元
      * */
     fun executeClickTrack(view: View) {
-        ExposureUnitUtils.getUnitExposureBean(view)?.let {
-            val pageName = EventTrackRegisterHelper.getTopPageName()
-            ClickTrackCollectionUtils.addClickTrackBean(pageName, it)
+        try {
+            ExposureUnitUtils.getUnitExposureBean(view)?.let {
+                val pageName = EventTrackRegisterHelper.getTopPageName()
+                ClickTrackCollectionUtils.addClickTrackBean(pageName, it)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

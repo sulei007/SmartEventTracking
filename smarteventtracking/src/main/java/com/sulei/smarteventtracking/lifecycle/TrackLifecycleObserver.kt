@@ -21,10 +21,10 @@ class TrackLifecycleObserver(
             if (event == Lifecycle.Event.ON_PAUSE) {
                 executeAction()
             } else if (event == Lifecycle.Event.ON_DESTROY) {
-                action = null
                 removeAction()
                 EventTrackRegisterHelper.removeTopPageName()
                 source.lifecycle.removeObserver(this)
+                action = null
             }
         } catch (e: Exception) {
             e.printStackTrace()

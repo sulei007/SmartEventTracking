@@ -18,10 +18,8 @@ object EventTrackRegisterHelper {
     fun registerLifecycleObserver(
         pageName: String, lifecycleOwner: LifecycleOwner, action: IExecuteReportAction?
     ) {
-        if (getTopPageName() != pageName) {
-            pushPageName(pageName)
-            lifecycleOwner.lifecycle.addObserver(TrackLifecycleObserver(pageName, action))
-        }
+        lifecycleOwner.lifecycle.addObserver(TrackLifecycleObserver(pageName, action))
+        pushPageName(pageName)
     }
 
     /**
@@ -35,6 +33,7 @@ object EventTrackRegisterHelper {
      * 获取栈顶的内容
      * */
     fun getTopPageName(): String {
+        println("EventTrack Stack List ---> $pageNameStack")
         if (pageNameStack.empty()) {
             return ""
         }
