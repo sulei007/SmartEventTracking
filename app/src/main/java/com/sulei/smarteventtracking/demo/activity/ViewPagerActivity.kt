@@ -22,6 +22,8 @@ class ViewPagerActivity : AppCompatActivity() {
         mBinding.apply {
             viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
             tabLayout.setupWithViewPager(viewPager)
+            //tabLayout 不需要曝光
+            ExposureTrackHelper.injectUnnecessaryExposure(tabLayout)
             viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
                     position: Int,
@@ -52,7 +54,7 @@ class ViewPagerActivity : AppCompatActivity() {
                     ScreenUtils.getScreenWidth(this@ViewPagerActivity),
                     ScreenUtils.getScreenHeight(this@ViewPagerActivity)
                 )
-            ExposureTrackHelper.executeExposureTrackForViewGroup(viewPager, location)
+            ExposureTrackHelper.executeExposureTrackForViewGroup(root, location)
         }
     }
 }
