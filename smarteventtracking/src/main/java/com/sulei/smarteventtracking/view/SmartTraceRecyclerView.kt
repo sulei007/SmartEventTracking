@@ -28,10 +28,20 @@ class SmartTraceRecyclerView : RecyclerView {
     init {
         //滚动监听
         addOnScrollListener(object : OnScrollListener() {
+            private var mState = -1
+
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 // RecyclerView 滚动停止或者拖拽中，采集曝光信息
-                if (newState == SCROLL_STATE_IDLE || newState == SCROLL_STATE_DRAGGING) {
+                mState = newState
+                if (mState == SCROLL_STATE_IDLE) {
+                    exposureTrackListener?.invoke()
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (mState == SCROLL_STATE_DRAGGING) {
                     exposureTrackListener?.invoke()
                 }
             }
