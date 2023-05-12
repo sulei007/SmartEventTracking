@@ -46,7 +46,10 @@ object ExposureTrackHelper {
      * 第二步，执行View的曝光
      * */
     fun executeExposureTrackForView(view: View, location: IntArray) {
+        val startTime = System.currentTimeMillis()
         executeExposureTrack(view, location)
+        val endTime = System.currentTimeMillis()
+        println("SmartEventTrack 本次曝光采集耗时====== ${endTime - startTime}")
     }
 
     /**
