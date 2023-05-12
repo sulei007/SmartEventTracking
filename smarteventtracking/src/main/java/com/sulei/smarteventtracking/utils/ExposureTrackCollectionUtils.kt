@@ -29,16 +29,19 @@ object ExposureTrackCollectionUtils {
 
     /**
      * 添加埋点数据bean
+     * 返回true代码添加成功，返回false代表添加失败
      * */
-    fun addExposureTrackBean(pageName: String, bean: EventTrackBean) {
+    fun addExposureTrackBean(pageName: String, bean: EventTrackBean): Boolean {
         if (isBeanReported(pageName, bean)) {//已经上报过，不能重复添加
-            return
+            return false
         }
 
         val datas = waitReportMap[pageName]
         if (datas != null && !datas.contains(bean)) {
             datas.add(bean)
+            return true
         }
+        return false
     }
 
     /**

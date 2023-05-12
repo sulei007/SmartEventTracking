@@ -1,6 +1,5 @@
 <resources>
-    <item name="parent_exposure_tag" type="id" />
     <item name="unit_exposure_tag" type="id" />
     <item name="unnecessary_exposure_tag" type="id" />
-    <item name="parent_has_exposure_tag" type="id" />
+    <item name="unit_has_exposure_tag" type="id" />
 </resources>

@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.sulei.smarteventtracking.demo.R
 import com.sulei.smarteventtracking.demo.adapter.MyAdapter
 import com.sulei.smarteventtracking.demo.bean.CartBean
@@ -16,12 +15,13 @@ import com.sulei.smarteventtracking.demo.utils.AppEventTrackReportUtils
 import com.sulei.smarteventtracking.demo.utils.ScreenUtils
 import com.sulei.smarteventtracking.helper.EventTrackRegisterHelper
 import com.sulei.smarteventtracking.helper.ExposureTrackHelper
+import com.sulei.smarteventtracking.view.SmartTraceRecyclerView
 
 /**
  * fragment
  * */
 class MyFragment(val cId: Int, private val pageName: String) : Fragment() {
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: SmartTraceRecyclerView
     private lateinit var adapterOne: MyAdapter
     private val handle = Handler(Looper.getMainLooper())
 
@@ -37,14 +37,9 @@ class MyFragment(val cId: Int, private val pageName: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    executeExposureTrack()
-                }
-            }
-        })
+        recyclerView.setExposureTrackListener {
+            executeExposureTrack()
+        }
 
         adapterOne = MyAdapter(pageName, ArrayList())
         recyclerView.adapter = adapterOne
@@ -68,8 +63,6 @@ class MyFragment(val cId: Int, private val pageName: String) : Fragment() {
             }
         }
         adapterOne?.notifyDataSetChanged()
-        //延迟50ms后，开始采集埋点，因为 notifyDataSetChanged 需要一定时间
-        handle.postDelayed({ executeExposureTrack() }, 50)
     }
 
     override fun onDestroy() {
@@ -88,7 +81,9 @@ class MyFragment(val cId: Int, private val pageName: String) : Fragment() {
                 ScreenUtils.getScreenWidth(requireContext()),
                 ScreenUtils.getScreenHeight(requireContext())
             )
-        view?.let { ExposureTrackHelper.executeExposureTrackForViewGroup(it, location) }
+        view?.let {
+            ExposureTrackHelper.executeExposureTrackForView(it, location)
+        }
     }
 
     /**

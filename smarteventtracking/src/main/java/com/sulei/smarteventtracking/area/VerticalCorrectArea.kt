@@ -16,7 +16,7 @@ class VerticalCorrectArea : ICorrectArea {
         val viewTop = location[1]
         //child 底部坐标
         val viewBottom = location[1] + child.height
-        if (viewBottom <= top || viewTop >= bottom) {
+        if (viewBottom - child.height / 3 <= top || viewTop + child.height / 3 >= bottom) {
             return false
         }
         return true

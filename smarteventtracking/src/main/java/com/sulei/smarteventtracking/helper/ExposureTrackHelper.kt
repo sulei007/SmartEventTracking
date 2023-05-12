@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import com.sulei.smarteventtracking.area.HorizontalCorrectArea
 import com.sulei.smarteventtracking.area.ICorrectArea
 import com.sulei.smarteventtracking.area.VerticalCorrectArea
-import com.sulei.smarteventtracking.area.ViewPagerCorrectArea
 import com.sulei.smarteventtracking.data.EventTrackBean
 import com.sulei.smarteventtracking.utils.ExposureTrackCollectionUtils
 import com.sulei.smarteventtracking.utils.ExposureUnitUtils
@@ -19,12 +18,10 @@ object ExposureTrackHelper {
      * 默认有如下区域判断：
      * 1，垂直方向判断
      * 2，水平方向判断
-     * 3，viewpager 水平方向判断
      * */
     private val correctAreaLists = ArrayList<ICorrectArea>().apply {
         add(VerticalCorrectArea())
         add(HorizontalCorrectArea())
-        add(ViewPagerCorrectArea())
     }
 
     /**
@@ -39,20 +36,17 @@ object ExposureTrackHelper {
      * 第一步，曝光注入
      * @param unit 曝光的最小单元
      * @param bean 埋点数据bean
-     * @param parentView 曝光的最小单元的父view，用于优化遍历速度，可以不传
      * */
-    fun injectExposureUnit(
-        unit: View, bean: EventTrackBean, parentView: ViewGroup? = null
-    ) {
-        ExposureUnitUtils.injectExposureUnit(unit, bean, parentView)
-        ExposureUnitUtils.resetParentExposure(unit)
+    fun injectExposureUnit(unit: View, bean: EventTrackBean) {
+        ExposureUnitUtils.injectExposureUnit(unit, bean)
+        ExposureUnitUtils.resetUnitExposure(unit)
     }
 
     /**
-     * 第二步，执行ViewGroup的曝光
+     * 第二步，执行View的曝光
      * */
-    fun executeExposureTrackForViewGroup(view: View, location: IntArray) {
-        executeExposureTrack(view, location, true)
+    fun executeExposureTrackForView(view: View, location: IntArray) {
+        executeExposureTrack(view, location)
     }
 
     /**
@@ -73,11 +67,8 @@ object ExposureTrackHelper {
     /**
      * 执行遍历
      * 筛选在展示区间内所有满足条件的曝光单元，然后将埋点数据bean加入到页面纬度的曝光列表里
-     * @param pageName 页面唯一标示，可以使用 java.class.name
      * */
-    private fun executeExposureTrack(
-        view: View, location: IntArray, needSetParentHasExposure: Boolean
-    ) {
+    private fun executeExposureTrack(view: View, location: IntArray) {
         try {
             //不可见，不执行遍历
             if (view.visibility != View.VISIBLE) {
@@ -89,8 +80,8 @@ object ExposureTrackHelper {
                 return
             }
 
-            //当前parent 已经曝光过，不执行遍历
-            if (ExposureUnitUtils.isParentHasExposure(view)) {
+            //当前view 已经曝光过，不执行遍历
+            if (ExposureUnitUtils.isUnitHasExposure(view)) {
                 return
             }
 
@@ -104,19 +95,19 @@ object ExposureTrackHelper {
             //是最小埋点单元，所以找到它后，则不执行遍历
             if (ExposureUnitUtils.isExposureUnit(view)) {
                 ExposureUnitUtils.getUnitExposureBean(view)?.let {
-                    ExposureTrackCollectionUtils.addExposureTrackBean(it.pageName, it)
-                    if (needSetParentHasExposure) {
-                        ExposureUnitUtils.setParentHasExposure(view)
+                    if (ExposureTrackCollectionUtils.addExposureTrackBean(it.pageName, it)) {
+                        ExposureUnitUtils.setUnitHasExposure(view)
                     }
                 }
                 return
             }
 
+            //遍历 ViewGroup
             if (view is ViewGroup) {
                 for (index: Int in 0 until view.childCount) {
                     //遍历ViewGroup的子view
                     val child = view.getChildAt(index)
-                    executeExposureTrack(child, location, index == view.childCount - 1)
+                    executeExposureTrack(child, location)
                 }
             }
         } catch (e: Exception) {

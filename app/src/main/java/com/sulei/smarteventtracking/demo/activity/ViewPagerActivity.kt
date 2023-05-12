@@ -3,9 +3,6 @@ package com.sulei.smarteventtracking.demo.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.sulei.smarteventtracking.demo.R
 import com.sulei.smarteventtracking.demo.adapter.ViewPagerAdapter
 import com.sulei.smarteventtracking.demo.databinding.ActivityViewPagerBinding
@@ -24,24 +21,9 @@ class ViewPagerActivity : AppCompatActivity() {
             tabLayout.setupWithViewPager(viewPager)
             //tabLayout 不需要曝光
             ExposureTrackHelper.injectUnnecessaryExposure(tabLayout)
-            viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                }
-
-                override fun onPageSelected(position: Int) {
-
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {
-                    if (state == ViewPager.SCROLL_STATE_IDLE) {
-                        executeExposureTrack()
-                    }
-                }
-            })
+            viewPager.setExposureTrackListener {
+                executeExposureTrack()
+            }
         }
     }
 
@@ -54,7 +36,7 @@ class ViewPagerActivity : AppCompatActivity() {
                     ScreenUtils.getScreenWidth(this@ViewPagerActivity),
                     ScreenUtils.getScreenHeight(this@ViewPagerActivity)
                 )
-            ExposureTrackHelper.executeExposureTrackForViewGroup(root, location)
+            ExposureTrackHelper.executeExposureTrackForView(root, location)
         }
     }
 }

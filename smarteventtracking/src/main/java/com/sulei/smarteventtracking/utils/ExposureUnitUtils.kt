@@ -12,28 +12,22 @@ object ExposureUnitUtils {
     /**
      * 绑定数据的tag_id
      * */
-    private val Parent_Exposure_Tag_Id = R.id.parent_exposure_tag
     private val Unit_Exposure_Tag_Id = R.id.unit_exposure_tag
     private val Unnecessary_Exposure_Tag_Id = R.id.unnecessary_exposure_tag
 
     /**
-     * parent 是否已经曝光的标记
+     * 是否已经曝光的标记
      * */
-    private val Parent_Has_Exposure_Tag_Id = R.id.parent_has_exposure_tag
+    private val Unit_Has_Exposure_Tag_Id = R.id.unit_has_exposure_tag
 
-    private const val Parent_Has_Exposure_Tag = "Parent_Has_Exposure_Tag"
+    private const val Unit_Has_Exposure_Tag = "Parent_Has_Exposure_Tag"
     private const val Unnecessary_Exposure_Tag = "Unnecessary_Exposure_Tag"
 
     /**
      * 通过给 unit 设置 tag，实现数据绑定
      * */
-    fun injectExposureUnit(
-        unit: View, bean: EventTrackBean, parentView: ViewGroup? = null
-    ) {
+    fun injectExposureUnit(unit: View, bean: EventTrackBean) {
         unit.setTag(Unit_Exposure_Tag_Id, bean)
-        parentView?.let {
-            unit.setTag(Parent_Exposure_Tag_Id, it)
-        }
     }
 
     /**
@@ -78,33 +72,25 @@ object ExposureUnitUtils {
     }
 
     /**
-     * parent 是否已经曝光过了
+     * 是否已经曝光过了
      * */
-    fun isParentHasExposure(view: View): Boolean {
-        val tag = view.getTag(Parent_Exposure_Tag_Id)
-        if (tag != null && tag is ViewGroup) {
-            return tag.getTag(Parent_Has_Exposure_Tag_Id) != null
-        }
-        return false
+    fun isUnitHasExposure(view: View): Boolean {
+        val tag = view.getTag(Unit_Has_Exposure_Tag_Id)
+        return tag != null
     }
 
     /**
-     * 设置 parent 已经曝光标记
+     * 设置 unit 已经曝光标记
      * */
-    fun setParentHasExposure(view: View) {
-        val tag = view.getTag(Parent_Exposure_Tag_Id)
-        if (tag != null && tag is ViewGroup) {
-            tag.setTag(Parent_Has_Exposure_Tag_Id, Parent_Has_Exposure_Tag)
-        }
+    fun setUnitHasExposure(view: View) {
+        view.setTag(Unit_Has_Exposure_Tag_Id, Unit_Has_Exposure_Tag)
     }
 
     /**
-     * 重置 parent 已经曝光标记
+     * 重置 unit 已经曝光标记
      * */
-    fun resetParentExposure(view: View) {
-        val tag = view.getTag(Parent_Exposure_Tag_Id)
-        if (tag != null && tag is ViewGroup) {
-            tag.setTag(Parent_Has_Exposure_Tag_Id, null)
-        }
+    fun resetUnitExposure(view: View) {
+        view.setTag(Unit_Has_Exposure_Tag_Id, null)
+
     }
 }

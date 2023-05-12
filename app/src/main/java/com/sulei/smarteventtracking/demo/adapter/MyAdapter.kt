@@ -46,8 +46,7 @@ class MyAdapter(val pageName: String, val mList: ArrayList<CartBean>) :
                     left.id.toString(),
                     pageName,
                     AppEventTrackBean(left.id.toString(), left.name)
-                ),
-                binding.llContent
+                )
             )
 
             val right = item.list[1]
@@ -62,8 +61,7 @@ class MyAdapter(val pageName: String, val mList: ArrayList<CartBean>) :
                     right.id.toString(),
                     pageName,
                     AppEventTrackBean(right.id.toString(), right.name)
-                ),
-                binding.llContent
+                )
             )
             binding.executePendingBindings()
         }

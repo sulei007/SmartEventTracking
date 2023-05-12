@@ -17,7 +17,7 @@ class HorizontalCorrectArea : ICorrectArea {
         val viewLeft = location[0]
         //child 右边坐标
         val viewRight = location[0] + child.width
-        if (viewRight <= left || viewLeft >= right) {
+        if (viewRight - child.width / 3 <= left || viewLeft + child.width / 3 >= right) {
             return false
         }
         return true
