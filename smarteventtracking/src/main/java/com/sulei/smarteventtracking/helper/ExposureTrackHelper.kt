@@ -44,6 +44,7 @@ object ExposureTrackHelper {
 
     /**
      * 第二步，执行View的曝光
+     * @param location 区域坐标[left,top,right,bottom]
      * */
     fun executeExposureTrackForView(view: View, location: IntArray) {
         val startTime = System.currentTimeMillis()
@@ -70,6 +71,7 @@ object ExposureTrackHelper {
     /**
      * 执行遍历
      * 筛选在展示区间内所有满足条件的曝光单元，然后将埋点数据bean加入到页面纬度的曝光列表里
+     * @param location 区域坐标[left,top,right,bottom]
      * */
     private fun executeExposureTrack(view: View, location: IntArray) {
         try {
